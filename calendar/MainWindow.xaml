@@ -14,7 +14,8 @@
         <ListBox x:Name="lbTasks" Margin="0,10,10,40" HorizontalAlignment="Right" Width="250" Grid.Row="1" Grid.Column="1" />
         <Button x:Name="btnAddTask" Click="btnAddTask_Click" Content="+" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" Grid.Row="1" VerticalAlignment="Bottom" Width="25" Height="25" />
         <Button x:Name="btnRemoveTask" Click="btnRemoveTask_Click" Content="-" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,45,10" Grid.Row="1" VerticalAlignment="Bottom" Width="25" Height="25" />
-        <DatePicker x:Name="dpDateToShow" SelectedDateChanged="dpDateToShow_SelectedDateChanged" Margin="199,26,201,0" VerticalAlignment="Top" FirstDayOfWeek="Monday" />
-        <Label Content="Date to show:" Margin="217,0,217,34" />
+        <DatePicker x:Name="dtDateToShow" SelectedDateChanged="dtDateToShow_SelectedDateChanged" VerticalAlignment="Center" Width="150" HorizontalAlignment="Center" />
+        <Button x:Name="btnModify" Content="Modify" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Bottom" Margin="0,0,0,10" Width="75" Click="btnModify_Click" />
+        <Button x:Name="btnShow" Content="Show" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,10" Width="50" Click="btnShow_Click" />
     </Grid>
 </Window>

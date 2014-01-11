@@ -16,7 +16,7 @@ namespace calendar
 
         public string Name
         {
-            get 
+            get
             {
                 return name_;
             }
@@ -33,7 +33,7 @@ namespace calendar
             {
                 return localization_;
             }
-            
+
             set
             {
                 localization_ = value;
@@ -79,6 +79,9 @@ namespace calendar
             }
         }
 
-
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

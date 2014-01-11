@@ -26,8 +26,7 @@ namespace calendar
         {
             InitializeComponent();
 
-            dpDateToShow.DisplayDate = DateTime.Now;
-            dpDateToShow.SelectedDate = DateTime.Now;
+            dtDateToShow.SelectedDate = DateTime.Now;
         }
 
         public List<Day> DaysList
@@ -45,12 +44,7 @@ namespace calendar
 
         private Day GetSelectedDay()
         {
-            return daysList_.Find(x => x.Date.Equals(dpDateToShow.SelectedDate.Value));
-        }
-
-        private void ShowTaskList()
-        {
-            RefreshTaskList();
+            return daysList_.Find(x => x.Date.Equals(dtDateToShow.SelectedDate));
         }
 
         private void RefreshTaskList()
@@ -61,37 +55,77 @@ namespace calendar
             if (tmpDay != null)
             {
                 foreach (Task task in tmpDay.TaskList)
-                    lbTasks.Items.Add(task.Name);
+                    lbTasks.Items.Add(task);
             }
         }
 
         private void btnRemoveTask_Click(object sender, RoutedEventArgs e)
         {
+            Day tmpDay = GetSelectedDay();
+
+            if (tmpDay != null)
+            {
+                tmpDay.RemoveTask((Task)lbTasks.SelectedItem);
+                RefreshTaskList();
+
+                if (!tmpDay.HasTasks())
+                    RemoveDay(tmpDay);
+            }
+        }
+
+        private Day GetOrCreateSelectedDay()
+        {
+            Day tmpDay = GetSelectedDay();
+            if (tmpDay == null && dtDateToShow.SelectedDate.HasValue)
+            {
+                tmpDay = new Day(dtDateToShow.SelectedDate.Value);
+                daysList_.Add(tmpDay);
+            }
+
+            return tmpDay;
+        }
+
+        private void RemoveDay(Day day)
+        {
+            daysList_.Remove(day);
+        }
+
+        private void AddTask(Task task)
+        {
+            Day tmpDay = GetOrCreateSelectedDay();
+            tmpDay.AddTask(task);
         }
 
         private void btnAddTask_Click(object sender, RoutedEventArgs e)
         {
-            TaskDataWindow win = new TaskDataWindow();
+            if (!dtDateToShow.SelectedDate.HasValue)
+                return;
+
+            TaskDataWindow win = new TaskDataWindow(dtDateToShow.SelectedDate.Value);
 
             if (win.ShowDialog() == true)
-            {
-                Task newTask = win.SavedTask;
+                AddTask(win.SavedTask);
 
-                Day tmpDay = GetSelectedDay();
-                if (tmpDay == null)
-                {
-                    tmpDay = new Day(dpDateToShow.SelectedDate.Value);
-                    daysList_.Add(tmpDay);
-                }
-
-                tmpDay.AddTask(newTask);
-            }
-
-            ShowTaskList();
+            RefreshTaskList();
         }
 
-        private void dpDateToShow_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        private void dtDateToShow_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+            RefreshTaskList();
+        }
+
+        private void btnShow_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void btnModify_Click(object sender, RoutedEventArgs e)
+        {
+            if (!dtDateToShow.SelectedDate.HasValue || lbTasks.SelectedItem == null)
+                return;
+
+            TaskDataWindow win = new TaskDataWindow(dtDateToShow.SelectedDate.Value, (Task)lbTasks.SelectedItem);
+
+            win.ShowDialog();
             RefreshTaskList();
         }
     }

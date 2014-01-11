@@ -13,7 +13,6 @@ namespace calendar
 
         public Day()
         {
-            
         }
 
         public Day(DateTime date)
@@ -50,6 +49,11 @@ namespace calendar
         public bool HasTask(Task task)
         {
             return taskList_.Contains(task);
+        }
+
+        public bool HasTasks()
+        {
+            return taskList_.Count > 0;
         }
 
         public bool AddTask(Task task)

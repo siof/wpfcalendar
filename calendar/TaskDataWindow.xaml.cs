@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,40 +13,63 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.ComponentModel;
-using System.Reflection;
+using Xceed.Wpf.Toolkit;
 
 namespace calendar
 {
     /// <summary>
-    /// Interaction logic for AddTask.xaml
+    /// Interaction logic for TaskDataWindow.xaml
     /// </summary>
     public partial class TaskDataWindow : Window
     {
-        private Task tmpTask = null;
+        private Task tmpTask_ = null;
+        private DateTime currentDate_;
 
-        public TaskDataWindow()
+        public TaskDataWindow(DateTime currentDate)
         {
             InitializeComponent();
 
-            for (TaskRepeatType i = TaskRepeatType.TASK_REPEAT_NONE; i < TaskRepeatType.TASK_REPEAT_COUNT; ++i)
+            currentDate_ = currentDate;
+
+            FillRepeatTypeComboBox();
+            ShowForRepeatable(false);
+        }
+
+        public TaskDataWindow(DateTime currentDate, Task taskToMod)
+        {
+            InitializeComponent();
+
+            currentDate_ = currentDate;
+
+            FillRepeatTypeComboBox();
+            tmpTask_ = taskToMod;
+
+            if (tmpTask_ != null)
             {
-                FieldInfo fi = i.GetType().GetField(i.ToString());
+                txtName.Text = tmpTask_.Name;
+                txtLocation.Text = tmpTask_.Localization;
+                txtDescription.Text = tmpTask_.Description;
+                dtStartTime.Value = taskToMod.StartTime;
+                dtEndTime.Value = taskToMod.EndTime;
 
-                if (fi != null)
+                if (tmpTask_ is RepeatableTask)
                 {
-                    object[] attrs = fi.GetCustomAttributes(typeof(DescriptionAttribute), true);
-
-                    if (attrs != null && attrs.Length > 0)
-                        cbRepeatType.Items.Add(((DescriptionAttribute)attrs[0]).Description);
+                    dpDueDate.SelectedDate = ((RepeatableTask)tmpTask_).RepeatEnd;
+                    cbRepeatType.SelectedIndex = (int)((RepeatableTask)tmpTask_).RepeatType;
+                    ShowForRepeatable(true);
                 }
+                else
+                    ShowForRepeatable(false);
             }
         }
 
-        public TaskDataWindow(Task taskToMod)
+        private void ShowForRepeatable(bool show = true)
         {
-            InitializeComponent();
+            dpDueDate.Visibility = lblEndDate.Visibility = show ? Visibility.Visible : Visibility.Hidden;
+        }
 
+        private void FillRepeatTypeComboBox()
+        {
             for (TaskRepeatType i = TaskRepeatType.TASK_REPEAT_NONE; i < TaskRepeatType.TASK_REPEAT_COUNT; ++i)
             {
                 FieldInfo fi = i.GetType().GetField(i.ToString());
@@ -58,24 +83,36 @@ namespace calendar
                 }
             }
 
-            tmpTask = taskToMod;
-
-            if (tmpTask != null)
-            {
-                txtName.Text = tmpTask.Name;
-                txtLocation.Text = tmpTask.Localization;
-                txtDescription.Text = tmpTask.Description;
-            }
+            if (cbRepeatType.HasItems)
+                cbRepeatType.SelectedIndex = (int)TaskRepeatType.TASK_REPEAT_NONE;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (tmpTask == null)
-                tmpTask = new Task();
+            if (tmpTask_ == null)
+                tmpTask_ = new Task();
 
-            tmpTask.Name = txtName.Text;
-            tmpTask.Localization = txtLocation.Text;
-            tmpTask.Description = txtDescription.Text;
+            if (cbRepeatType.SelectedIndex != (int)TaskRepeatType.TASK_REPEAT_NONE)
+            {
+                if ((tmpTask_ is RepeatableTask) == false)
+                {
+                    Task tempTask = tmpTask_;
+                    tmpTask_ = new RepeatableTask(tempTask);
+                }
+
+                ((RepeatableTask)tmpTask_).RepeatType = (TaskRepeatType)cbRepeatType.SelectedIndex;
+                ((RepeatableTask)tmpTask_).RepeatEnd = dpDueDate.SelectedDate;
+            }
+
+            tmpTask_.Name = txtName.Text;
+            tmpTask_.Localization = txtLocation.Text;
+            tmpTask_.Description = txtDescription.Text;
+
+            if (dtStartTime.Value.HasValue && dtEndTime.Value.HasValue)
+            {
+                tmpTask_.StartTime = dtStartTime.Value.Value;
+                tmpTask_.EndTime = dtEndTime.Value.Value;
+            }
 
             DialogResult = true;
             Close();
@@ -91,8 +128,13 @@ namespace calendar
         {
             get
             {
-                return tmpTask;
+                return tmpTask_;
             }
+        }
+
+        private void cbRepeatType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ShowForRepeatable(cbRepeatType.SelectedIndex != (int)TaskRepeatType.TASK_REPEAT_NONE);
         }
     }
 }
