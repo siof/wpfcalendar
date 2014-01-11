@@ -47,7 +47,7 @@ namespace calendar
 
         private void btnAddTask_Click(object sender, RoutedEventArgs e)
         {
-            AddTask win = new AddTask();
+            TaskDataWindow win = new TaskDataWindow();
 
             if (win.ShowDialog() == true)
             {

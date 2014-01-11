@@ -19,11 +19,11 @@ namespace calendar
     /// <summary>
     /// Interaction logic for AddTask.xaml
     /// </summary>
-    public partial class AddTask : Window
+    public partial class TaskDataWindow : Window
     {
         private Task tmpTask = null;
 
-        public AddTask()
+        public TaskDataWindow()
         {
             InitializeComponent();
 
@@ -41,9 +41,38 @@ namespace calendar
             }
         }
 
+        public TaskDataWindow(Task taskToMod)
+        {
+            InitializeComponent();
+
+            for (TaskRepeatType i = TaskRepeatType.TASK_REPEAT_NONE; i < TaskRepeatType.TASK_REPEAT_COUNT; ++i)
+            {
+                FieldInfo fi = i.GetType().GetField(i.ToString());
+
+                if (fi != null)
+                {
+                    object[] attrs = fi.GetCustomAttributes(typeof(DescriptionAttribute), true);
+
+                    if (attrs != null && attrs.Length > 0)
+                        cbRepeatType.Items.Add(((DescriptionAttribute)attrs[0]).Description);
+                }
+            }
+
+            tmpTask = taskToMod;
+
+            if (tmpTask != null)
+            {
+                txtName.Text = tmpTask.Name;
+                txtLocation.Text = tmpTask.Localization;
+                txtDescription.Text = tmpTask.Description;
+            }
+        }
+
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            tmpTask = new Task();
+            if (tmpTask == null)
+                tmpTask = new Task();
+
             tmpTask.Name = txtName.Text;
             tmpTask.Localization = txtLocation.Text;
             tmpTask.Description = txtDescription.Text;
