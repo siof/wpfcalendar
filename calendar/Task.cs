@@ -79,6 +79,19 @@ namespace calendar
             }
         }
 
+        public string GetTooltip()
+        {
+            string tmpStr;
+            tmpStr = "Name: " + Name + "\n";
+            tmpStr += "Location: " + Localization + "\n";
+            tmpStr += "Start time: " + startTime_.TimeOfDay.ToString() + "\n";
+            tmpStr += "End time: " + endTime_.TimeOfDay.ToString() + "\n";
+            tmpStr += "Description: " + Description + "\n";
+            tmpStr += "Repeatable: " + (this is RepeatableTask).ToString();
+
+            return tmpStr;
+        }
+
         public override string ToString()
         {
             return Name;

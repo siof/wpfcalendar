@@ -55,7 +55,13 @@ namespace calendar
             if (tmpDay != null)
             {
                 foreach (Task task in tmpDay.TaskList)
-                    lbTasks.Items.Add(task);
+                {
+                    ListBoxItem lbItem = new ListBoxItem();
+                    lbItem.Content = task;
+
+                    lbItem.ToolTip = task.GetTooltip();
+                    lbTasks.Items.Add(lbItem);
+                }
             }
         }
 
@@ -65,7 +71,7 @@ namespace calendar
 
             if (tmpDay != null)
             {
-                tmpDay.RemoveTask((Task)lbTasks.SelectedItem);
+                tmpDay.RemoveTask((Task)((ListBoxItem)lbTasks.SelectedItem).Content);
                 RefreshTaskList();
 
                 if (!tmpDay.HasTasks())
@@ -114,8 +120,12 @@ namespace calendar
             RefreshTaskList();
         }
 
-        private void btnShow_Click(object sender, RoutedEventArgs e)
+        private void ShowModificationWindow(DateTime date, Task task)
         {
+            TaskDataWindow win = new TaskDataWindow(date, task);
+
+            win.ShowDialog();
+            RefreshTaskList();
         }
 
         private void btnModify_Click(object sender, RoutedEventArgs e)
@@ -123,10 +133,15 @@ namespace calendar
             if (!dtDateToShow.SelectedDate.HasValue || lbTasks.SelectedItem == null)
                 return;
 
-            TaskDataWindow win = new TaskDataWindow(dtDateToShow.SelectedDate.Value, (Task)lbTasks.SelectedItem);
+            ShowModificationWindow(dtDateToShow.SelectedDate.Value, (Task)((ListBoxItem)lbTasks.SelectedItem).Content);
+        }
 
-            win.ShowDialog();
-            RefreshTaskList();
+        private void lbTasks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (!dtDateToShow.SelectedDate.HasValue || lbTasks.SelectedItem == null)
+                return;
+
+            ShowModificationWindow(dtDateToShow.SelectedDate.Value, (Task)((ListBoxItem)lbTasks.SelectedItem).Content);
         }
     }
 }
