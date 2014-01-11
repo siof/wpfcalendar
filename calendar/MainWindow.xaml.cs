@@ -20,11 +20,14 @@ namespace calendar
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Day> daysList_;
+        private List<Day> daysList_ = new List<Day>();
 
         public MainWindow()
         {
             InitializeComponent();
+
+            dpDateToShow.DisplayDate = DateTime.Now;
+            dpDateToShow.SelectedDate = DateTime.Now;
         }
 
         public List<Day> DaysList
@@ -40,9 +43,30 @@ namespace calendar
             }
         }
 
+        private Day GetSelectedDay()
+        {
+            return daysList_.Find(x => x.Date.Equals(dpDateToShow.SelectedDate.Value));
+        }
+
+        private void ShowTaskList()
+        {
+            RefreshTaskList();
+        }
+
+        private void RefreshTaskList()
+        {
+            lbTasks.Items.Clear();
+            Day tmpDay = GetSelectedDay();
+
+            if (tmpDay != null)
+            {
+                foreach (Task task in tmpDay.TaskList)
+                    lbTasks.Items.Add(task.Name);
+            }
+        }
+
         private void btnRemoveTask_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void btnAddTask_Click(object sender, RoutedEventArgs e)
@@ -52,7 +76,23 @@ namespace calendar
             if (win.ShowDialog() == true)
             {
                 Task newTask = win.SavedTask;
+
+                Day tmpDay = GetSelectedDay();
+                if (tmpDay == null)
+                {
+                    tmpDay = new Day(dpDateToShow.SelectedDate.Value);
+                    daysList_.Add(tmpDay);
+                }
+
+                tmpDay.AddTask(newTask);
             }
+
+            ShowTaskList();
+        }
+
+        private void dpDateToShow_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshTaskList();
         }
     }
 }

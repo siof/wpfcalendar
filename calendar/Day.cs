@@ -8,8 +8,18 @@ namespace calendar
 {
     public class Day
     {
-        private DateTime date_;
-        private List<Task> taskList_;
+        private DateTime date_ = DateTime.MinValue;
+        private List<Task> taskList_ = new List<Task>();
+
+        public Day()
+        {
+            
+        }
+
+        public Day(DateTime date)
+        {
+            date_ = date;
+        }
 
         public DateTime Date
         {
@@ -35,6 +45,31 @@ namespace calendar
             {
                 taskList_ = value;
             }
+        }
+
+        public bool HasTask(Task task)
+        {
+            return taskList_.Contains(task);
+        }
+
+        public bool AddTask(Task task)
+        {
+            if (HasTask(task))
+                return false;
+
+            taskList_.Add(task);
+
+            return true;
+        }
+
+        public bool RemoveTask(Task task)
+        {
+            return taskList_.Remove(task);
+        }
+
+        public bool RemoveTask(string taskName)
+        {
+            return taskList_.RemoveAll(x => x.Name == taskName) > 0 ? true : false;
         }
     }
 }

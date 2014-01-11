@@ -53,13 +53,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddTask.xaml.cs">
-      <DependentUpon>AddTask.xaml</DependentUpon>
+    <Compile Include="TaskDataWindow.xaml.cs">
+      <DependentUpon>TaskDataWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Day.cs" />
     <Compile Include="RepeatableTask.cs" />
     <Compile Include="Task.cs" />
-    <Page Include="AddTask.xaml">
+    <Page Include="TaskDataWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
