@@ -20,9 +20,39 @@ namespace calendar
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<Day> daysList_;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public List<Day> DaysList
+        {
+            get
+            {
+                return daysList_;
+            }
+
+            set
+            {
+                daysList_ = value;
+            }
+        }
+
+        private void btnRemoveTask_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAddTask_Click(object sender, RoutedEventArgs e)
+        {
+            AddTask win = new AddTask();
+
+            if (win.ShowDialog() == true)
+            {
+                Task newTask = win.SavedTask;
+            }
         }
     }
 }

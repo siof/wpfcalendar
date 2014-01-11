@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace calendar
 {
-    class Day
+    public class Day
     {
         private DateTime date_;
         private List<Task> taskList_;

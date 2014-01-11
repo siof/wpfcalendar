@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace calendar
 {
-    class Task
+    public class Task
     {
         private string name_ = "";
         private string localization_ = "";

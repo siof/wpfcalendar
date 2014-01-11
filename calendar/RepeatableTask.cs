@@ -3,19 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace calendar
 {
-    enum TaskRepeatType
+    public enum TaskRepeatType
     {
+        [DescriptionAttribute("Disabled")]
         TASK_REPEAT_NONE    = 0,
+        [DescriptionAttribute("Daily")]
         TASK_REPEAT_DAILY   = 1,
+        [DescriptionAttribute("Weekly")]
         TASK_REPEAT_WEEKLY  = 2,
+        [DescriptionAttribute("Monthly")]
         TASK_REPEAT_MONTHLY = 3,
-        TASK_REPEAT_YEARLY  = 4
+        [DescriptionAttribute("Yearly")]
+        TASK_REPEAT_YEARLY  = 4,
+
+        TASK_REPEAT_COUNT   = 5
     }
 
-    class RepeatableTask : Task
+    public class RepeatableTask : Task
     {
         private TaskRepeatType taskRepeatType_ = TaskRepeatType.TASK_REPEAT_NONE;
         private DateTime repeatStart_;
