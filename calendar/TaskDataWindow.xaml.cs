@@ -47,7 +47,7 @@ namespace calendar
             if (tmpTask_ != null)
             {
                 txtName.Text = tmpTask_.Name;
-                txtLocation.Text = tmpTask_.Localization;
+                txtLocation.Text = tmpTask_.Location;
                 txtDescription.Text = tmpTask_.Description;
                 dtStartTime.Value = taskToMod.StartTime;
                 dtEndTime.Value = taskToMod.EndTime;
@@ -105,7 +105,7 @@ namespace calendar
             }
 
             tmpTask_.Name = txtName.Text;
-            tmpTask_.Localization = txtLocation.Text;
+            tmpTask_.Location = txtLocation.Text;
             tmpTask_.Description = txtDescription.Text;
 
             if (dtStartTime.Value.HasValue && dtEndTime.Value.HasValue)

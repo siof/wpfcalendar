@@ -36,7 +36,7 @@ namespace calendar
         public RepeatableTask(Task t)
         {
             Name = t.Name;
-            Localization = t.Localization;
+            Location = t.Location;
             Description = t.Description;
             StartTime = t.StartTime;
             EndTime = t.EndTime;

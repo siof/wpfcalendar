@@ -9,7 +9,7 @@ namespace calendar
     public class Task
     {
         private string name_ = "";
-        private string localization_ = "";
+        private string location_ = "";
         private string description_ = "";
         private DateTime startTime_;
         private DateTime endTime_;
@@ -27,16 +27,16 @@ namespace calendar
             }
         }
 
-        public string Localization
+        public string Location
         {
             get
             {
-                return localization_;
+                return location_;
             }
 
             set
             {
-                localization_ = value;
+                location_ = value;
             }
         }
 
@@ -83,7 +83,7 @@ namespace calendar
         {
             string tmpStr;
             tmpStr = "Name: " + Name + "\n";
-            tmpStr += "Location: " + Localization + "\n";
+            tmpStr += "Location: " + Location + "\n";
             tmpStr += "Start time: " + startTime_.TimeOfDay.ToString() + "\n";
             tmpStr += "End time: " + endTime_.TimeOfDay.ToString() + "\n";
             tmpStr += "Description: " + Description + "\n";
