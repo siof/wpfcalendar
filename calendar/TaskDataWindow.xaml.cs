@@ -102,6 +102,9 @@ namespace calendar
 
                 ((RepeatableTask)tmpTask_).RepeatType = (TaskRepeatType)cbRepeatType.SelectedIndex;
                 ((RepeatableTask)tmpTask_).RepeatEnd = dpDueDate.SelectedDate;
+
+                if (((RepeatableTask)tmpTask_).RepeatStart == null)
+                    ((RepeatableTask)tmpTask_).RepeatStart = currentDate_;
             }
 
             tmpTask_.Name = txtName.Text;

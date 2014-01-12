@@ -30,7 +30,7 @@ namespace calendar
     public class RepeatableTask : Task
     {
         private TaskRepeatType taskRepeatType_ = TaskRepeatType.TASK_REPEAT_NONE;
-        private DateTime repeatStart_ = DateTime.MinValue;
+        private DateTime? repeatStart_ = null;
         private DateTime? repeatEnd_ = null;
 
         public RepeatableTask(Task t)
@@ -55,7 +55,7 @@ namespace calendar
             }
         }
 
-        public DateTime RepeatStart
+        public DateTime? RepeatStart
         {
             get
             {

@@ -21,7 +21,7 @@
         <ComboBox x:Name="cbRepeatType" HorizontalAlignment="Left" Margin="10,244,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbRepeatType_SelectionChanged" />
         <Label x:Name="lblEndDate" Content="End date" HorizontalAlignment="Left" Margin="135,242,0,0" VerticalAlignment="Top" Visibility="Hidden" />
         <DatePicker x:Name="dpDueDate"  HorizontalAlignment="Left" Margin="192,244,0,0" VerticalAlignment="Top" SelectedDateFormat="Short" Visibility="Hidden" />
-        <Button x:Name="btnSave"  Click="btnSave_Click" Content="Save" HorizontalAlignment="Left" Margin="259,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" />
+        <Button x:Name="btnSave"  Click="btnSave_Click" Content="Save" HorizontalAlignment="Right" Margin="0,12,10,0" Grid.Row="1" VerticalAlignment="Top" Width="75" />
         <Button x:Name="btnCancel" Click="btnCancel_Click" Content="Cancel" HorizontalAlignment="Left" Margin="10,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" />
     </Grid>
 </Window>
