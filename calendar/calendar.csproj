@@ -56,12 +56,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CalendarDay.xaml.cs">
+      <DependentUpon>CalendarDay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TaskData.xaml.cs">
+      <DependentUpon>TaskData.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TaskDataWindow.xaml.cs">
       <DependentUpon>TaskDataWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Day.cs" />
     <Compile Include="RepeatableTask.cs" />
     <Compile Include="Task.cs" />
+    <Page Include="CalendarDay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TaskData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TaskDataWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

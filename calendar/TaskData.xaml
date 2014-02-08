@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="calendar.TaskData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="100" d:DesignWidth="100">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="taskName" Grid.Row="0" Padding="1" TextAlignment="Center">Test</TextBlock>
+        <TextBlock x:Name="taskInfo" Grid.Row="1" Padding="1" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis">12:12 - 13:13 In bla bla blum</TextBlock>
+        <TextBlock x:Name="taskDescription" Grid.Row="2" Padding="1" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis">taki sobie jakis tam opisek opisowy hahaha</TextBlock>
+    </Grid>
+</UserControl>
