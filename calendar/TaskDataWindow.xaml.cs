@@ -49,8 +49,8 @@ namespace calendar
                 txtName.Text = tmpTask_.Name;
                 txtLocation.Text = tmpTask_.Location;
                 txtDescription.Text = tmpTask_.Description;
-                dtStartTime.Value = taskToMod.StartTime;
-                dtEndTime.Value = taskToMod.EndTime;
+                dtStartTime.Value = tmpTask_.StartTime;
+                dtEndTime.Value = tmpTask_.EndTime;
 
                 if (tmpTask_ is RepeatableTask)
                 {

@@ -22,14 +22,21 @@ namespace calendar
     public partial class MainWindow : Window
     {
         private List<Task> tasksList_ = new List<Task>();
-        private ObservableCollection<TaskItem> visibleTaskList_ = new ObservableCollection<TaskItem>();
+        private ObservableCollection<Task> visibleTaskList_ = new ObservableCollection<Task>();
 
         public MainWindow()
         {
             InitializeComponent();
 
             dtDateToShow.SelectedDate = DateTime.Now;
-            lbTasks.ItemsSource = visibleTaskList_;
+        }
+
+        public ObservableCollection<Task> Tasks
+        {
+            get
+            {
+                return visibleTaskList_;
+            }
         }
 
         private List<Task> GetTasksForSelectedDay()
@@ -41,8 +48,8 @@ namespace calendar
         {
             if (lbTasks.SelectedItem != null)
             {
-                tasksList_.Remove(((TaskItem)lbTasks.SelectedItem).Content as Task);
-                visibleTaskList_.Remove(lbTasks.SelectedItem as TaskItem);
+                tasksList_.Remove(lbTasks.SelectedItem as Task);
+                visibleTaskList_.Remove(lbTasks.SelectedItem as Task);
             }
         }
 
@@ -66,7 +73,7 @@ namespace calendar
                 });
 
             foreach (var task in tmpList)
-                visibleTaskList_.Add(new TaskItem(task));
+                visibleTaskList_.Add(task);
         }
 
         private void AddTask(Task task)
@@ -96,7 +103,6 @@ namespace calendar
             TaskDataWindow win = new TaskDataWindow(date, task);
 
             win.ShowDialog();
-            PrepareTasksForSelectedDay();
         }
 
         private void btnModify_Click(object sender, RoutedEventArgs e)
@@ -104,7 +110,7 @@ namespace calendar
             if (!dtDateToShow.SelectedDate.HasValue || lbTasks.SelectedItem == null)
                 return;
 
-            ShowModificationWindow(dtDateToShow.SelectedDate.Value, ((TaskItem)lbTasks.SelectedItem).Content as Task);
+            ShowModificationWindow(dtDateToShow.SelectedDate.Value, lbTasks.SelectedItem as Task);
         }
 
         private void lbTasks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -112,7 +118,7 @@ namespace calendar
             if (!dtDateToShow.SelectedDate.HasValue || lbTasks.SelectedItem == null)
                 return;
 
-            ShowModificationWindow(dtDateToShow.SelectedDate.Value, ((TaskItem)lbTasks.SelectedItem).Content as Task);
+            ShowModificationWindow(dtDateToShow.SelectedDate.Value, lbTasks.SelectedItem as Task);
         }
     }
 }

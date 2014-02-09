@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using System.Windows;
 
 namespace calendar
 {
-    public class Task
+    public class Task : INotifyPropertyChanged
     {
         private string name_ = "";
         private string location_ = "";
@@ -15,6 +16,14 @@ namespace calendar
         private DateTime startTime_;
         private DateTime endTime_;
         private DateTime date_;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
 
         public string Name
         {
@@ -26,6 +35,7 @@ namespace calendar
             set
             {
                 name_ = value;
+                NotifyPropertyChanged("Name");
             }
         }
 
@@ -39,6 +49,7 @@ namespace calendar
             set
             {
                 location_ = value;
+                NotifyPropertyChanged("Location");
             }
         }
 
@@ -52,6 +63,7 @@ namespace calendar
             set
             {
                 description_ = value;
+                NotifyPropertyChanged("Description");
             }
         }
 
@@ -65,6 +77,7 @@ namespace calendar
             set
             {
                 startTime_ = value;
+                NotifyPropertyChanged("StartTime");
             }
         }
 
@@ -78,6 +91,7 @@ namespace calendar
             set
             {
                 endTime_ = value;
+                NotifyPropertyChanged("EndTime");
             }
         }
 
@@ -91,6 +105,7 @@ namespace calendar
             set
             {
                 date_ = value;
+                NotifyPropertyChanged("");
             }
         }
 
@@ -115,17 +130,12 @@ namespace calendar
             string tmpStr;
             tmpStr = "Name: " + Name + "\n";
             tmpStr += "Location: " + Location + "\n";
-            tmpStr += "Start time: " + startTime_.TimeOfDay.ToString() + "\n";
-            tmpStr += "End time: " + endTime_.TimeOfDay.ToString() + "\n";
+            tmpStr += "Start time: " + startTime_.Hour + ":" + startTime_.Minute + "\n";
+            tmpStr += "End time: " + endTime_.Hour + ":" + endTime_.Minute + "\n";
             tmpStr += "Description: " + Description + "\n";
             tmpStr += "Repeatable: " + (this is RepeatableTask).ToString();
 
             return tmpStr;
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }
