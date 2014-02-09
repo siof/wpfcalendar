@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,86 +21,58 @@ namespace calendar
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Day> daysList_ = new List<Day>();
+        private List<Task> tasksList_ = new List<Task>();
+        private ObservableCollection<TaskItem> visibleTaskList_ = new ObservableCollection<TaskItem>();
 
         public MainWindow()
         {
             InitializeComponent();
 
             dtDateToShow.SelectedDate = DateTime.Now;
+            lbTasks.ItemsSource = visibleTaskList_;
         }
 
-        public List<Day> DaysList
+        private List<Task> GetTasksForSelectedDay()
         {
-            get
-            {
-                return daysList_;
-            }
-
-            set
-            {
-                daysList_ = value;
-            }
-        }
-
-        private Day GetSelectedDay()
-        {
-            return daysList_.Find(x => x.Date.Equals(dtDateToShow.SelectedDate));
-        }
-
-        private void RefreshTaskList()
-        {
-            lbTasks.Items.Clear();
-            Day tmpDay = GetSelectedDay();
-
-            if (tmpDay != null)
-            {
-                foreach (Task task in tmpDay.TaskList)
-                {
-                    ListBoxItem lbItem = new ListBoxItem();
-                    lbItem.Content = task;
-
-                    lbItem.ToolTip = task.GetTooltip();
-                    lbTasks.Items.Add(lbItem);
-                }
-            }
+            return tasksList_.FindAll(x => x.Date.Equals(dtDateToShow.SelectedDate));
         }
 
         private void btnRemoveTask_Click(object sender, RoutedEventArgs e)
         {
-            Day tmpDay = GetSelectedDay();
-
-            if (tmpDay != null)
+            if (lbTasks.SelectedItem != null)
             {
-                tmpDay.RemoveTask((Task)((ListBoxItem)lbTasks.SelectedItem).Content);
-                RefreshTaskList();
-
-                if (!tmpDay.HasTasks())
-                    RemoveDay(tmpDay);
+                tasksList_.Remove(((TaskItem)lbTasks.SelectedItem).Content as Task);
+                visibleTaskList_.Remove(lbTasks.SelectedItem as TaskItem);
             }
         }
 
-        private Day GetOrCreateSelectedDay()
+        private void PrepareTasksForSelectedDay()
         {
-            Day tmpDay = GetSelectedDay();
-            if (tmpDay == null && dtDateToShow.SelectedDate.HasValue)
-            {
-                tmpDay = new Day(dtDateToShow.SelectedDate.Value);
-                daysList_.Add(tmpDay);
-            }
+            visibleTaskList_.Clear();
+            List<Task> tmpList = GetTasksForSelectedDay();
 
-            return tmpDay;
-        }
+            tmpList.Sort(delegate(Task a, Task b)
+                {
+                    if (a.StartTime == null && b.StartTime == null)
+                        return 0;
 
-        private void RemoveDay(Day day)
-        {
-            daysList_.Remove(day);
+                    if (a.StartTime == null)
+                        return -1;
+
+                    if (b.StartTime == null)
+                        return 1;
+
+                    return a.StartTime.CompareTo(b.StartTime);
+                });
+
+            foreach (var task in tmpList)
+                visibleTaskList_.Add(new TaskItem(task));
         }
 
         private void AddTask(Task task)
         {
-            Day tmpDay = GetOrCreateSelectedDay();
-            tmpDay.AddTask(task);
+            tasksList_.Add(task);
+            PrepareTasksForSelectedDay();
         }
 
         private void btnAddTask_Click(object sender, RoutedEventArgs e)
@@ -111,13 +84,11 @@ namespace calendar
 
             if (win.ShowDialog() == true)
                 AddTask(win.SavedTask);
-
-            RefreshTaskList();
         }
 
         private void dtDateToShow_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            RefreshTaskList();
+            PrepareTasksForSelectedDay();
         }
 
         private void ShowModificationWindow(DateTime date, Task task)
@@ -125,7 +96,7 @@ namespace calendar
             TaskDataWindow win = new TaskDataWindow(date, task);
 
             win.ShowDialog();
-            RefreshTaskList();
+            PrepareTasksForSelectedDay();
         }
 
         private void btnModify_Click(object sender, RoutedEventArgs e)
@@ -133,7 +104,7 @@ namespace calendar
             if (!dtDateToShow.SelectedDate.HasValue || lbTasks.SelectedItem == null)
                 return;
 
-            ShowModificationWindow(dtDateToShow.SelectedDate.Value, (Task)((ListBoxItem)lbTasks.SelectedItem).Content);
+            ShowModificationWindow(dtDateToShow.SelectedDate.Value, ((TaskItem)lbTasks.SelectedItem).Content as Task);
         }
 
         private void lbTasks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -141,7 +112,7 @@ namespace calendar
             if (!dtDateToShow.SelectedDate.HasValue || lbTasks.SelectedItem == null)
                 return;
 
-            ShowModificationWindow(dtDateToShow.SelectedDate.Value, (Task)((ListBoxItem)lbTasks.SelectedItem).Content);
+            ShowModificationWindow(dtDateToShow.SelectedDate.Value, ((TaskItem)lbTasks.SelectedItem).Content as Task);
         }
     }
 }

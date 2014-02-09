@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -65,9 +66,9 @@
     <Compile Include="TaskDataWindow.xaml.cs">
       <DependentUpon>TaskDataWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Day.cs" />
     <Compile Include="RepeatableTask.cs" />
     <Compile Include="Task.cs" />
+    <Compile Include="TaskItem.cs" />
     <Page Include="CalendarDay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

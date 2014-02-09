@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace calendar
 {
@@ -13,6 +14,7 @@ namespace calendar
         private string description_ = "";
         private DateTime startTime_;
         private DateTime endTime_;
+        private DateTime date_;
 
         public string Name
         {
@@ -76,6 +78,35 @@ namespace calendar
             set
             {
                 endTime_ = value;
+            }
+        }
+
+        public DateTime Date
+        {
+            get
+            {
+                return date_;
+            }
+
+            set
+            {
+                date_ = value;
+            }
+        }
+
+        public string TaskInfo
+        {
+            get
+            {
+                return string.Format("{0}:{1} - {2}{3} in {4}", startTime_.Hour, startTime_.Millisecond, endTime_.Hour, endTime_.Minute, location_);
+            }
+        }
+
+        public string ToolTip
+        {
+            get
+            {
+                return GetTooltip();
             }
         }
 

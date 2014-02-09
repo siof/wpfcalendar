@@ -110,6 +110,7 @@ namespace calendar
             tmpTask_.Name = txtName.Text;
             tmpTask_.Location = txtLocation.Text;
             tmpTask_.Description = txtDescription.Text;
+            tmpTask_.Date = currentDate_;
 
             if (dtStartTime.Value.HasValue && dtEndTime.Value.HasValue)
             {
