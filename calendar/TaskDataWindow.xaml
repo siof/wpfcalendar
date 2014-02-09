@@ -22,7 +22,7 @@
         <xctk:DateTimeUpDown x:Name="dtEndTime" Margin="90,66,10,0" VerticalAlignment="Top" Format="ShortTime" />
         <TextBox x:Name="txtLocation" Height="23" Margin="90,91,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" />
         <TextBox x:Name="txtDescription" Margin="10,145,10,48" TextWrapping="Wrap" Text="" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
-        <ComboBox x:Name="cbRepeatType" HorizontalAlignment="Left" Margin="10,244,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbRepeatType_SelectionChanged" ItemsSource="{cal:EnumDescExtension {x:Type cal:TaskRepeatType}}" />
+        <ComboBox x:Name="cbRepeatType" HorizontalAlignment="Left" Margin="10,244,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{cal:EnumDescExtension {x:Type cal:TaskRepeatType}}" />
         <Label x:Name="lblEndDate" Content="End date" HorizontalAlignment="Left" Margin="135,242,0,0" VerticalAlignment="Top" Visibility="{Binding ElementName=cbRepeatType, Path=SelectedIndex, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" />
         <DatePicker x:Name="dpDueDate"  HorizontalAlignment="Left" Margin="192,244,0,0" VerticalAlignment="Top" SelectedDateFormat="Short" Visibility="{Binding ElementName=cbRepeatType, Path=SelectedIndex, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" />
         <Button x:Name="btnSave"  Click="btnSave_Click" Content="Save" HorizontalAlignment="Right" Margin="0,12,10,0" Grid.Row="1" VerticalAlignment="Top" Width="75" />

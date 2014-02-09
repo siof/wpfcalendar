@@ -30,7 +30,6 @@ namespace calendar
             InitializeComponent();
 
             currentDate_ = currentDate;
-            ShowForRepeatable(false);
         }
 
         public TaskDataWindow(DateTime currentDate, Task taskToMod)
@@ -52,16 +51,8 @@ namespace calendar
                 {
                     dpDueDate.SelectedDate = ((RepeatableTask)tmpTask_).RepeatEnd;
                     cbRepeatType.SelectedIndex = (int)((RepeatableTask)tmpTask_).RepeatType;
-                    ShowForRepeatable(true);
                 }
-                else
-                    ShowForRepeatable(false);
             }
-        }
-
-        private void ShowForRepeatable(bool show = true)
-        {
-            //dpDueDate.Visibility = lblEndDate.Visibility = show ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -111,11 +102,6 @@ namespace calendar
             {
                 return tmpTask_;
             }
-        }
-
-        private void cbRepeatType_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ShowForRepeatable(cbRepeatType.SelectedIndex != (int)TaskRepeatType.TASK_REPEAT_NONE);
         }
     }
 }
