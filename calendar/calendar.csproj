@@ -60,6 +60,8 @@
     <Compile Include="CalendarDay.xaml.cs">
       <DependentUpon>CalendarDay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EnumMarkupExtension.cs" />
+    <Compile Include="IntToBoolConverter.cs" />
     <Compile Include="TaskData.xaml.cs">
       <DependentUpon>TaskData.xaml</DependentUpon>
     </Compile>
@@ -68,7 +70,6 @@
     </Compile>
     <Compile Include="RepeatableTask.cs" />
     <Compile Include="Task.cs" />
-    <Compile Include="TaskItem.cs" />
     <Page Include="CalendarDay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

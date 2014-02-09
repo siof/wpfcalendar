@@ -17,12 +17,19 @@ namespace calendar
         private DateTime endTime_;
         private DateTime date_;
 
+        private string[] infoProperties_ = { "StartTime", "EndTime", "Location" };
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
         {
             if (PropertyChanged != null)
+            {
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
+
+                if (infoProperties_.Contains(propName))
+                    PropertyChanged(this, new PropertyChangedEventArgs("TaskInfo"));
+            }
         }
 
         public string Name

@@ -30,8 +30,6 @@ namespace calendar
             InitializeComponent();
 
             currentDate_ = currentDate;
-
-            FillRepeatTypeComboBox();
             ShowForRepeatable(false);
         }
 
@@ -40,8 +38,6 @@ namespace calendar
             InitializeComponent();
 
             currentDate_ = currentDate;
-
-            FillRepeatTypeComboBox();
             tmpTask_ = taskToMod;
 
             if (tmpTask_ != null)
@@ -65,26 +61,7 @@ namespace calendar
 
         private void ShowForRepeatable(bool show = true)
         {
-            dpDueDate.Visibility = lblEndDate.Visibility = show ? Visibility.Visible : Visibility.Hidden;
-        }
-
-        private void FillRepeatTypeComboBox()
-        {
-            for (TaskRepeatType i = TaskRepeatType.TASK_REPEAT_NONE; i < TaskRepeatType.TASK_REPEAT_COUNT; ++i)
-            {
-                FieldInfo fi = i.GetType().GetField(i.ToString());
-
-                if (fi != null)
-                {
-                    object[] attrs = fi.GetCustomAttributes(typeof(DescriptionAttribute), true);
-
-                    if (attrs != null && attrs.Length > 0)
-                        cbRepeatType.Items.Add(((DescriptionAttribute)attrs[0]).Description);
-                }
-            }
-
-            if (cbRepeatType.HasItems)
-                cbRepeatType.SelectedIndex = (int)TaskRepeatType.TASK_REPEAT_NONE;
+            //dpDueDate.Visibility = lblEndDate.Visibility = show ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
